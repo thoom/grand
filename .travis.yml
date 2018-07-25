@@ -1,32 +1,32 @@
 language: go
 sudo: false
 go:
-  - '1.10'
-  - tip
+- '1.10'
+- tip
 services:
-  - docker
+- docker
 before_install:
-  - go get -t -v ./...
+- go get -t -v ./...
 script:
-  - go test ./... -race -coverprofile=coverage.txt -covermode=atomic
+- go test ./... -race -coverprofile=coverage.txt -covermode=atomic
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
 before_deploy:
-  - scripts/build.sh
+- scripts/build.sh
 deploy:
-  - provider: releases
-    api_key:
-      secure: Py2jGvjm+UrN49vPWQFdWVs+yzG7xabbRQ1x8DXsT4wQ+OlGLPDKGdm7LcHcz00DdqSS5ausZKpROzAJ8kwbiidHPhFFt7zjVGTl3Hgl46CysPo5d9hM1lbjplu3iNtI3y9jqtSuZBSr6sWvCV/hqRH4oFPkZ1sxnRd8XGRsL8kwOpupIbqsQJ8DNNxfXQScS1PIqWgvTtitv/uwG57qiXYH99KArvepfB431lV6hC7DqgkiJTPDUrQCqv8u/tCsqPgE9RznDFtMax5pnOaKfWeRs+h8uanahx/0u1whonF0JBoCassHr5Isup5yRjNuh5D8wJM+rpxWSaKVtlI7oSUGVeG+W4ARfcFCPadN64IGvx4mpGlMJ9kRc0rhe5oX6vehp8KzMXvivCbGz9O6aZ2kvk7Kkfv3paC0n4vqT6hQaTKybGQ6x11eM2Ll8vFDnv3lSSVUzdM97FjVcd1W09coSA41rzYJKI3Hj7TqJEq2+ddp6j7XBsW1n0QtawHJuMFZCqNotrdJ6At0CNAGZ327LD7i8Nri28ksi3JLd9CgC7QPEdhPCMqvBFTXAc3FiYiWHBYSD1uTuYSmcRvVUlWOGMQ/y0H8aUtCYWeI2nIzrHHUWgOoR1I6acjNlr+LQ86RI4AvaaJqg+Wm0YlrP3U5VgXyWQxReaXS72BQAD4=
-    file:
-      - goron-linux-amd64
-      - goron-linux-386
-      - goron-darwin
-      - goron-windows
-    skip_cleanup: true
-    on:
-      tags: true
-  - provider: script
-    script: scripts/deploy.sh
-    skip_cleanup: true
-    on:
-      tags: true
+- provider: releases
+  api_key:
+    secure: arHqANKbYa42uYZaCtkWH45TIkDJatsjuXtuHAOYokObFQGFrU+K3NEHXS+HFFL0yxbHmAKL/dgS8hqXJSfZjE7SI9hIBXFcYDE3Xily5ogzfEdCKFo5W0V5vwwP+Exie6kheoxYe5Gpq40hk4v92nH+IFwaPf6T/GGIJeqAtkltzWmF3f3WTHr/ZEblNX2O1WQTA42WEsm4p6hXjdqnbPyMJHlwy54ytf+cN+X5+OYW3h8l5/9NNVF91y0FLmwRFuF79UbXjjTz4Hud+KhheSOxKSZYQBplYRLvdstkhRIJB9IzLUzHdb1bKS4IDAigNip2PBBJhvfwguVx6KOmeXhpwmrthCkmOFBEbZ8t2OKXfA3B9SWsaim96l4fVEcygDQR0Be5tp9az+P8mAKbuFa2lBD4yhJCSRKREjdVKF09AJ2Gl3zdxh4VlpQcAeUAiMIsDwMBDYbn0RjFtq7mTvnviZs73aplPDRvDZv/nOdS7aI7hBjt2upq7FD9jSiSau5gkAyAywYDQEUUqDj5JYJsGVRWjBFvo20VuBNWIT12j3Y+PfRGHe+3fjKlHaHZkeKsVCd0R3CKDJfeE8wVlm2LTWuuJGlqgdXXsyc1UDNJRBR4M971AamjeX9KoD7ORFD3LYocUITb9Rlb+Xab/RX05u1idKMJUauTKEjJn9E=
+  file:
+  - goron-linux-amd64
+  - goron-linux-386
+  - goron-darwin
+  - goron-windows
+  skip_cleanup: true
+  on:
+    tags: true
+- provider: script
+  script: scripts/deploy.sh
+  skip_cleanup: true
+  on:
+    tags: true
