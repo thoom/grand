@@ -1,36 +1,50 @@
 package main
 
 import (
+	"crypto/rand"
 	"flag"
 	"fmt"
-	"math/rand"
+	mr "math/rand"
 	"os"
 	"strings"
 	"time"
-
-	"github.com/pborman/uuid"
 )
 
 var (
-	randType = flag.String("type", "alphanum", "alphanum, alpha, hex, num, uuid")
-	randLen  = flag.Int("length", 32, "Length of the string")
-	randCase = flag.String("case", "mixed", "upper, lower, mixed")
+	buildVersion string
+
+	randType   = flag.String("type", "alphanum", "alphanum, alpha, hex, num, uuid")
+	randLen    = flag.Int("length", 32, "Length of the string")
+	randCase   = flag.String("case", "mixed", "upper, lower, mixed")
+	iterations = flag.Int("repeat", 1, "number of times to run")
+	version    = flag.Bool("version", false, "current version")
 )
 
 func init() {
-	rand.Seed(time.Now().UnixNano())
+	if buildVersion == "" {
+		buildVersion = time.Now().Format("20060102.0304PM.MST") + "-SNAPSHOT"
+	}
+
+	mr.Seed(time.Now().UnixNano())
 }
 
 func main() {
 	flag.Parse()
 
-	output, err := processString(*randType, *randLen, *randCase)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+	if *version {
+		fmt.Println(printVersion(buildVersion))
+		os.Exit(0)
 	}
 
-	fmt.Println(output)
+	for i := 0; i < *iterations; i++ {
+		output, err := processString(*randType, *randLen, *randCase)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+
+		fmt.Println(output)
+	}
 }
 
 func processString(randType string, randLen int, randCase string) (string, error) {
@@ -88,7 +102,13 @@ func hexEncode(length int, strCase string) string {
 }
 
 func uuidEncode(strCase string) string {
-	str := uuid.New()
+	b := make([]byte, 16)
+	rand.Read(b)
+
+	b[8] = (b[8] | 0x80) & 0xBF
+	b[6] = (b[6] | 0x40) & 0x4F
+
+	str := fmt.Sprintf("%x-%x-%x-%x-%x", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
 	if strCase == "upper" {
 		str = strings.ToUpper(str)
 	}
@@ -99,7 +119,17 @@ func uuidEncode(strCase string) string {
 func randomString(seed string, l int) string {
 	buf := make([]byte, l)
 	for i := 0; i < l; i++ {
-		buf[i] = seed[rand.Intn(len(seed))]
+		buf[i] = seed[mr.Intn(len(seed))]
 	}
 	return string(buf)
+}
+
+func printVersion(version string) string {
+	return fmt.Sprintf(`
+thoom.Goron - random string generator
+
+version: %s
+author: Z.d.Peacock <zdp@thoomtech.com>
+link: https://github.com/thoom/goron
+`, version)
 }

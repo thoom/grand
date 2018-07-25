@@ -148,3 +148,14 @@ func TestUuidUpper(t *testing.T) {
 	assert := assert.New(t)
 	assert.Regexp(regexp.MustCompile("^[A-F0-9]{8}-[A-F0-9]{4}-4[A-F0-9]{3}-[8|9|A|B][A-F0-9]{3}-[A-F0-9]{12}$"), uuidEncode("upper"))
 }
+
+func TestPrintVersion(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal(`
+thoom.Goron - random string generator
+
+version: testVersion
+author: Z.d.Peacock <zdp@thoomtech.com>
+link: https://github.com/thoom/goron
+`, printVersion("testVersion"))
+}
