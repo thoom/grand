@@ -21,7 +21,7 @@ The preferred method is to download the latest binary release for your platform 
 
 ### Using Docker
 
-If you already use Docker, gRand is packaged into a very small, OS-less image (~4 Mb compressed, 7.5 Mb uncompressed). To learn more about the Docker image, see the [Github Packages](https://github.com/users/thoom/packages/container/package/grand) section.
+If you already use Docker, gRand is packaged into a very small, OS-less image (~1.5 Mb compressed, 4 Mb uncompressed). To learn more about the Docker image, see the [Github Packages](https://github.com/users/thoom/packages/container/package/grand) section.
 
 **Basic usage**
 
