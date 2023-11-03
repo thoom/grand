@@ -7,7 +7,7 @@ WORKDIR /thoom/grand
 RUN go get -d ./... 
 RUN CGO_ENABLED=0 go build -ldflags "-X main.buildVersion=$BUILD_VERSION" -o grand
 
-FROM scratch:latest
+FROM scratch
 LABEL author="Zach Peacock <zach@thoom.net>"
 LABEL org.opencontainers.image.source="https://github.com/thoom/grand"
 

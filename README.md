@@ -11,7 +11,33 @@ It supports:
 * numeric
 * uuid (uppercase, lowercase)
 
-### Usage
+## Installation
+
+There are several ways to download and install the `grand` client.
+
+### Binary Releases
+
+The preferred method is to download the latest binary release for your platform from the [Github Releases](https://github.com/thoom/grand/releases) section.
+
+### Using Docker
+
+If you already use Docker, gRand is packaged into a very small, OS-less image (~4 Mb compressed, 7.5 Mb uncompressed). To learn more about the Docker image, see the [Github Packages](https://github.com/users/thoom/packages/container/package/grand) section.
+
+**Basic usage**
+
+```
+docker run --rm -it ghcr.io/thoom/grand
+```
+
+### Using Go
+
+Finally, you can also just build it directly on your machine if you already have Go installed:
+
+```
+go get github.com/thoom/grand
+```
+
+## Usage
 
 ```
 -case string
