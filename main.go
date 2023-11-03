@@ -28,8 +28,6 @@ func init() {
 	if buildVersion == "" {
 		buildVersion = time.Now().Format("20060102.0304PM.MST") + "-SNAPSHOT"
 	}
-
-	mr.Seed(time.Now().UnixNano())
 }
 
 func main() {
@@ -65,7 +63,7 @@ func processString(randType string, randLen int, randCase string) (string, error
 		return uuidEncode(randCase), nil
 	}
 
-	return "", fmt.Errorf("Invalid -type")
+	return "", fmt.Errorf("invalid -type")
 }
 
 func alphanum(length int, strCase string) string {
