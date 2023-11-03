@@ -1,14 +1,16 @@
-FROM golang:alpine as goalpine
+FROM golang:1.21-alpine AS build
 
 ARG BUILD_VERSION=snapshot
-COPY . /go/src/github.com/thoom/goron
+COPY . /thoom/grand
 
-WORKDIR /go/src/github.com/thoom/goron
-RUN CGO_ENABLED=0 go build -ldflags "-X main.buildVersion=$BUILD_VERSION-docker" -o goron
+WORKDIR /thoom/grand
+RUN go get -d ./... 
+RUN CGO_ENABLED=0 go build -ldflags "-X main.buildVersion=$BUILD_VERSION" -o grand
 
 FROM scratch
-LABEL author="Zach Peacock <zdp@thoomtech.com>"
+LABEL author="Zach Peacock <zach@thoom.net>"
+LABEL org.opencontainers.image.source="https://github.com/thoom/grand"
 
-COPY --from=goalpine /go/src/github.com/thoom/goron/goron /bin/
+COPY --from=build /thoom/grand/grand /bin/
 
-ENTRYPOINT ["/bin/goron"]
+ENTRYPOINT ["/bin/grand"]
