@@ -2,6 +2,7 @@ package main
 
 import (
 	"regexp"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -151,11 +152,6 @@ func TestUuidUpper(t *testing.T) {
 
 func TestPrintVersion(t *testing.T) {
 	assert := assert.New(t)
-	assert.Equal(`
-thoom.Goron - random string generator
-
-version: testVersion
-author: Z.d.Peacock <zdp@thoomtech.com>
-link: https://github.com/thoom/goron
-`, printVersion("testVersion"))
+	expected := "version: abc123def"
+	assert.True(strings.Contains(printVersion("abc123def"), expected))
 }

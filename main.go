@@ -6,8 +6,12 @@ import (
 	"fmt"
 	mr "math/rand"
 	"os"
+	"runtime"
 	"strings"
 	"time"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 var (
@@ -125,11 +129,10 @@ func randomString(seed string, l int) string {
 }
 
 func printVersion(version string) string {
-	return fmt.Sprintf(`
-thoom.Goron - random string generator
+	return fmt.Sprintf(`thoom.gRand - Random String Generator
 
-version: %s
-author: Z.d.Peacock <zdp@thoomtech.com>
-link: https://github.com/thoom/goron
-`, version)
+App version: %s (%s %s)
+Go build: %s
+Author: Zach Peacock <zach@thoom.net>
+Link: https://github.com/thoom/grand`, version, cases.Title(language.English).String(runtime.GOOS), strings.ToUpper(runtime.GOARCH), runtime.Version())
 }

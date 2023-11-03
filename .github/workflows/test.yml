@@ -1,0 +1,41 @@
+on: [push, pull_request, workflow_dispatch]
+name: Tests
+jobs:
+  test:
+    strategy:
+      matrix:
+        go-version: [1.21.x]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+
+      - name: Lint and Vet
+        run: go vet ./...
+
+      - name: Run Tests with Coverage
+        run: go test ./... -race -coverprofile=coverage.txt -covermode=atomic
+
+      - name: Staticcheck
+        uses: dominikh/staticcheck-action@v1.3.0
+        env: 
+          GOOS: linux
+          GOARCH: amd64
+        with:
+          install-go: false
+          cache-key: ${{ matrix.go }}
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

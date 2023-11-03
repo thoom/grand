@@ -1,7 +1,15 @@
-docker build -t goron -f Dockerfile --no-cache --build-arg BUILD_VERSION=$TRAVIS_BRANCH .
+docker build -t grand -f Dockerfile --no-cache --build-arg BUILD_VERSION=$RELEASE_VERSION .
 
-docker login -u $DOCKER_USER -p $DOCKER_PASS
-docker tag goron thoom/goron:latest
-docker tag goron thoom/goron:$TRAVIS_BRANCH
+echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+docker tag grand $IMAGE_NAME:latest
+docker tag grand $IMAGE_NAME:$RELEASE_VERSION
 
-docker push thoom/goron
+docker push $IMAGE_NAME:latest
+docker push $IMAGE_NAME:$RELEASE_VERSION
+
+echo $GH_PASS | docker login ghcr.io -u $GH_USER --password-stdin
+docker tag grand ghcr.io/$IMAGE_NAME:latest
+docker tag grand ghcr.io/$IMAGE_NAME:$RELEASE_VERSION
+
+docker push ghcr.io/$IMAGE_NAME:latest
+docker push ghcr.io/$IMAGE_NAME:$RELEASE_VERSION
