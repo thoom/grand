@@ -34,7 +34,7 @@ docker run --rm -it ghcr.io/thoom/grand
 Finally, you can also just build it directly on your machine if you already have Go installed:
 
 ```
-go get github.com/thoom/grand
+go install github.com/thoom/grand@latest
 ```
 
 ## Usage
